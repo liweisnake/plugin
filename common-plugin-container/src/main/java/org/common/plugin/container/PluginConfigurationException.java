@@ -6,11 +6,6 @@ public class PluginConfigurationException extends RuntimeException {
 		super();
 	}
 
-	public PluginConfigurationException(String message, Throwable cause,
-			boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
 	public PluginConfigurationException(String message, Throwable cause) {
 		super(message, cause);
 	}

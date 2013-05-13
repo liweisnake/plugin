@@ -17,6 +17,7 @@ import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.NameFileFilter;
 import org.common.plugin.container.PluginDescriptor;
 import org.common.plugin.container.PluginDescriptorTransformer;
+import org.common.plugin.container.PluginManager;
 import org.common.plugin.container.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,8 +102,10 @@ public class StandardScanner implements Scanner {
 					PluginDescriptorTransformer transformer = new StandardPluginDescriptorTransformer();
 					PluginDescriptor descriptor = transformer
 							.transform(FileUtils.readFileToString(xmlFile));
-					Plugin plugin = new Plugin(descriptor);
-					PluginRegistry.regist(plugin);
+					if(descriptor == null)
+						return false;
+					PluginManager manager = PluginManagerFactory.getPluginManager(descriptor);
+					PluginRegistry.regist(manager);
 					return true;
 				}
 			}

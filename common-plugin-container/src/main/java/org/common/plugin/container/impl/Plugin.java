@@ -9,8 +9,6 @@ public class Plugin {
 
 	private PluginDescriptor descriptor;
 
-	private PluginManager manager;
-
 	public Plugin(PluginDescriptor descriptor) {
 		this.descriptor = descriptor;
 	}
@@ -26,7 +24,5 @@ public class Plugin {
 	public void end() {
 
 	}
-	
-	
 
 }

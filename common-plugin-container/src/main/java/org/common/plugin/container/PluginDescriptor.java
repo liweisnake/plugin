@@ -3,23 +3,24 @@ package org.common.plugin.container;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PluginDescriptor {
-	
+
 	private String id;
-	
+
 	private String name;
-	
+
 	private String description;
-	
+
 	private String version;
-	
+
+	private String clazz;
+
 	private String pluginHome;
-	
+
 	private List<String> requires = new ArrayList<String>();
-	
-	private List<String> runtimeLib = new ArrayList<String>(); 
-	
+
+	private List<String> runtimeLib = new ArrayList<String>();
+
 	public PluginDescriptor() {
 		super();
 	}
@@ -55,12 +56,20 @@ public class PluginDescriptor {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
-	public void addRequire(String require){
+
+	public String getClazz() {
+		return clazz;
+	}
+
+	public void setClazz(String clazz) {
+		this.clazz = clazz;
+	}
+
+	public void addRequire(String require) {
 		this.requires.add(require);
 	}
 
-	public void addRuntimeLib(String lib){
+	public void addRuntimeLib(String lib) {
 		this.runtimeLib.add(lib);
 	}
 
@@ -71,7 +80,7 @@ public class PluginDescriptor {
 	public List<String> getRuntimeLib() {
 		return runtimeLib;
 	}
-	
+
 	public String getPluginHome() {
 		return pluginHome;
 	}
@@ -79,5 +88,5 @@ public class PluginDescriptor {
 	public void setPluginHome(String pluginHome) {
 		this.pluginHome = pluginHome;
 	}
-	
+
 }
