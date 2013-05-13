@@ -11,7 +11,7 @@ public class StandardPluginManager implements PluginManager {
 	
 	private PluginLoader loader;
 	
-	private Plugin plugin;
+	private PluginProxy plugin;
 
 	public StandardPluginManager(PluginDescriptor descriptor) {
 		// classLoader = new PluginClassLoader(urls);
@@ -35,15 +35,15 @@ public class StandardPluginManager implements PluginManager {
 		plugin.start();
 	}
 
-	public PluginClassLoader getPluginClassLoader() throws IOException {
-		return loader.getPluginClassLoader();
+	public PluginLoader getPluginLoader() throws IOException {
+		return loader;
 	}
 
 	public PluginDescriptor getPluginDescriptor() {
 		return descriptor;
 	}
 
-	public Plugin getPlugin(){
+	public PluginProxy getPlugin(){
 		return plugin;
 	}
 }

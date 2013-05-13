@@ -9,8 +9,12 @@ import java.net.URL;
 import org.apache.commons.io.filefilter.NameFileFilter;
 import org.common.plugin.container.PluginDescriptor;
 import org.common.plugin.container.PluginException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PluginLoader {
+	
+	private static Logger logger = LoggerFactory.getLogger(PluginLoader.class);
 
 	private final String PLUGIN_LIB_DIR = "lib";
 
@@ -22,14 +26,14 @@ public class PluginLoader {
 		this.descriptor = descriptor;
 	}
 
-	public Plugin loadPlugin() {
+	public PluginProxy loadPlugin() {
 		String className = descriptor.getClazz();
 		try {
 			Class<?> pluginClazz = getPluginClassLoader().loadClass(className);
 			if (pluginClazz != null) {
-				Constructor con = pluginClazz
+				Constructor<?> con = pluginClazz
 						.getConstructor(new Class[] { PluginDescriptor.class });
-				Plugin plugin = (Plugin) con.newInstance(descriptor);
+				PluginProxy plugin = (PluginProxy) con.newInstance(descriptor);
 				if (plugin != null) {
 					return plugin;
 				}
@@ -37,7 +41,7 @@ public class PluginLoader {
 		} catch (Exception e) {
 			throw new PluginException(e);
 		}
-		throw new PluginException("Can not find load plugin.");
+		throw new PluginException("Can not find plugin for " + className);
 	}
 
 	public PluginClassLoader getPluginClassLoader() throws IOException {

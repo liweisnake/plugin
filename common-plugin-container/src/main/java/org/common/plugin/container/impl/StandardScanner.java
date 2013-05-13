@@ -22,18 +22,27 @@ import org.common.plugin.container.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * 
+ * @author I064714
+ * 
+ */
 public class StandardScanner implements Scanner {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory
+			.getLogger(StandardScanner.class);
 
 	private final String PLUGIN_DIR = "plugin";
 
 	private final String PLUGIN_CONFIG = "plugin.xml";
 
 	public void scan() {
-
 		URL url = this.getClass().getClassLoader().getResource("");
 		String pluginPath = url.getPath() + "../" + PLUGIN_DIR;
+
+		logger.trace(">>>Start scan from: " + pluginPath);
+
 		File pluginDir = new File(pluginPath);
 		scan(pluginDir);
 	}
@@ -53,7 +62,7 @@ public class StandardScanner implements Scanner {
 						sets.add(FilenameUtils.getBaseName(filePathStr));
 					}
 				} catch (Exception e) {
-					logger.error("Plugin not installed correctly for :"
+					logger.error("Plugin not installed correctly :"
 							+ e.getMessage());
 				}
 			}
@@ -97,14 +106,15 @@ public class StandardScanner implements Scanner {
 					.listFiles((FileFilter) new NameFileFilter(PLUGIN_CONFIG));
 			if (pluginFile.length > 0) {
 				File xmlFile = pluginFile[0];
-				
+
 				if (xmlFile.isFile() && xmlFile.canRead()) {
 					PluginDescriptorTransformer transformer = new StandardPluginDescriptorTransformer();
 					PluginDescriptor descriptor = transformer
 							.transform(FileUtils.readFileToString(xmlFile));
-					if(descriptor == null)
+					if (descriptor == null)
 						return false;
-					PluginManager manager = PluginManagerFactory.getPluginManager(descriptor);
+					PluginManager manager = PluginManagerFactory
+							.getPluginManager(descriptor);
 					PluginRegistry.regist(manager);
 					return true;
 				}
