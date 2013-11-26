@@ -52,8 +52,12 @@ public class PluginLoader {
 			if (pluginLibDir.length > 0 && pluginLibDir[0].exists()
 					&& pluginLibDir[0].isDirectory()
 					&& pluginLibDir[0].canRead()) {
-				URL url = new URL(pluginLibDir[0].getCanonicalPath());
-				classLoader = new PluginClassLoader(new URL[] { url },
+				File [] jarFiles = pluginLibDir[0].listFiles();
+				URL[] urls = new URL[jarFiles.length];
+				for (int j = 0; j < jarFiles.length; j++) {
+					urls[j] = jarFiles[j].toURI().toURL();
+				}
+				classLoader = new PluginClassLoader(urls,
 						descriptor.getRequires());
 			}
 		}

@@ -1,7 +1,9 @@
 package org.common.plugin.container;
 
+import java.io.File;
+
 public interface PluginDescriptorTransformer {
 	
-	public PluginDescriptor transform(String pluginXml) throws PluginConfigurationException;
+	public PluginDescriptor transform(File file) throws PluginConfigurationException;
 
 }

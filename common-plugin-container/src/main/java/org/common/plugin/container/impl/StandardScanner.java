@@ -2,6 +2,7 @@ package org.common.plugin.container.impl;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
@@ -39,15 +40,24 @@ public class StandardScanner implements Scanner {
 
 	public void scan() {
 		URL url = this.getClass().getClassLoader().getResource("");
-		String pluginPath = url.getPath() + "../" + PLUGIN_DIR;
-
-		logger.trace(">>>Start scan from: " + pluginPath);
+		String pluginPath = url.getPath() + PLUGIN_DIR;
 
 		File pluginDir = new File(pluginPath);
 		scan(pluginDir);
 	}
+	
+	public void scan(String scanPath){
+		if(scanPath == null || "".equals(scanPath)){
+			scan();
+		}else{
+			File scanFile = new File(scanPath);
+			if(scanFile.exists() && scanFile.isDirectory() && scanFile.canRead())
+				scan(scanFile);
+		}
+	}
 
 	private void scan(File pluginDir) {
+		logger.trace(">>>Start scan from: " + pluginDir.getAbsolutePath());
 		if (pluginDir.exists()) {
 			Set<String> sets = new HashSet<String>();
 			File[] pluginFiles = pluginDir
@@ -108,12 +118,13 @@ public class StandardScanner implements Scanner {
 				File xmlFile = pluginFile[0];
 
 				if (xmlFile.isFile() && xmlFile.canRead()) {
-					PluginDescriptorTransformer transformer = new StandardPluginDescriptorTransformer();
+					PluginDescriptorTransformer transformer = PluginFactory
+							.getPluginDescriptorTransformer();
 					PluginDescriptor descriptor = transformer
-							.transform(FileUtils.readFileToString(xmlFile));
+							.transform(xmlFile);
 					if (descriptor == null)
 						return false;
-					PluginManager manager = PluginManagerFactory
+					PluginManager manager = PluginFactory
 							.getPluginManager(descriptor);
 					PluginRegistry.regist(manager);
 					return true;

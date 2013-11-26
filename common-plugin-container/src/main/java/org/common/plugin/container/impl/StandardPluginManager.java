@@ -44,6 +44,7 @@ public class StandardPluginManager implements PluginManager {
 	}
 
 	public PluginProxy getPlugin(){
+		activate();
 		return plugin;
 	}
 }

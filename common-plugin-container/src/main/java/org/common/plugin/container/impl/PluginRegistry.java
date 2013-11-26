@@ -1,5 +1,6 @@
 package org.common.plugin.container.impl;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,6 +21,10 @@ public class PluginRegistry {
 	
 	public static PluginManager getPluginManagerById(String id){
 		return pluginManagers.get(id);
+	}
+	
+	public static Collection<PluginManager> getAllPluginManagers(){
+		return pluginManagers.values();
 	}
 
 }

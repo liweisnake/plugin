@@ -3,28 +3,48 @@ package org.common.plugin.container;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="plugin")
 public class PluginDescriptor {
 
+	@XmlAttribute
 	private String id;
 
+	@XmlAttribute
 	private String name;
 
+	@XmlAttribute
 	private String description;
 
+	@XmlAttribute
 	private String version;
 
+	@XmlAttribute(name="class")
 	private String clazz;
 
 	private String pluginHome;
 
+	@XmlElementWrapper(name="requires")
+	@XmlElement(name="import")
+	//@XmlAttribute(name="plugin")
 	private List<String> requires = new ArrayList<String>();
 
+	@XmlElementWrapper(name="runtime")
+	@XmlElement(name="library")
 	private List<String> runtimeLib = new ArrayList<String>();
 
 	public PluginDescriptor() {
 		super();
 	}
 
+	
 	public String getId() {
 		return id;
 	}
@@ -72,6 +92,13 @@ public class PluginDescriptor {
 	public void addRuntimeLib(String lib) {
 		this.runtimeLib.add(lib);
 	}
+	
+	
+
+	public void setRequires(List<String> requires) {
+		this.requires = requires;
+	}
+
 
 	public List<String> getRequires() {
 		return requires;
@@ -89,4 +116,14 @@ public class PluginDescriptor {
 		this.pluginHome = pluginHome;
 	}
 
+	@Override
+	public String toString() {
+		return "PluginDescriptor [id=" + id + ", name=" + name
+				+ ", description=" + description + ", version=" + version
+				+ ", clazz=" + clazz + ", pluginHome=" + pluginHome
+				+ ", requires=" + requires + ", runtimeLib=" + runtimeLib + "]";
+	}
+
+	
 }
+

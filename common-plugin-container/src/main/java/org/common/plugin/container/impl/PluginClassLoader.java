@@ -53,5 +53,5 @@ public class PluginClassLoader extends URLClassLoader {
 						.format("Can not find class {0} both in current plugin and require plugins",
 								name));
 	}
-
+	
 }
